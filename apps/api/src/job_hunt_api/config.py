@@ -5,8 +5,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Runtime configuration loaded from environment variables."""
-
     app_name: str = "Job Hunt OS API"
     environment: str = "development"
     database_url: PostgresDsn

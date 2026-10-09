@@ -6,17 +6,15 @@ The agreed high-level direction is documented in [ADR 001: Initial architecture]
 
 ## New API foundation
 
-The new product foundation lives in `apps/api/`. It is separate from the prototypes below and currently provides only PostgreSQL configuration, Alembic migrations, and system health endpoints. Keycloak and business contexts are intentionally not implemented yet.
-
-Run it with Docker:
+The new API lives in `apps/api/`. Create a local `.env` from `.env.example`, replace the placeholders, then run:
 
 ```powershell
 docker compose up --build
 ```
 
-Check `http://localhost:8000/health` for API liveness and `http://localhost:8000/ready` for database readiness. Stop it with `docker compose down`; add `-v` only when you intentionally want to remove the local database volume.
+It exposes `/health` and `/ready` on `http://localhost:8000`.
 
-For a local Python environment, copy `apps/api/.env.example` to `apps/api/.env`, install with `pip install -e "./apps/api[dev]"`, then from `apps/api/` run `alembic upgrade head` and `uvicorn job_hunt_api.main:app --reload`.
+For local API work: copy `apps/api/.env.example` to `apps/api/.env`, then run `uv sync`, `uv run alembic upgrade head`, and `uv run uvicorn job_hunt_api.main:app --reload` from `apps/api/`.
 
 ## Current prototypes
 

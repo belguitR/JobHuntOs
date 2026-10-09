@@ -19,6 +19,6 @@ tmp/
 # Certificates and local tooling state
 **/*.pem
 frontend/.impeccable/
-cli/*.egg-info/
+**/*.egg-info/
 =
 .env

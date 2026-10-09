@@ -17,7 +17,6 @@ def create_database_engine() -> Engine:
 
 @lru_cache
 def get_session_factory() -> sessionmaker[Session]:
-    """Create connections lazily so non-database routes can still start."""
     return sessionmaker(bind=create_database_engine(), autoflush=False, autocommit=False)
 
 
