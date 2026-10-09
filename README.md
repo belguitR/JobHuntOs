@@ -2,7 +2,7 @@
 
 Job Hunt OS is a planned web app for managing a job search across countries. A user will have an account, add a profile and CVs, choose target countries, discover relevant job offers, track applications, adapt a copy of a CV for an offer, and review outreach drafts. Gmail drafts and sending require the user's approval. The writing model is still an open product decision.
 
-The agreed high-level direction is documented in [ADR 001: Initial architecture](docs/adr/001-initial-architecture.md) and [ADR 002: CV object storage](docs/adr/002-cv-object-storage.md). The [server architecture](docs/architecture/server-architecture.md) and [data model](docs/architecture/data-model.md) describe the intended FastAPI internals. These documents are separate from the local prototypes below.
+The agreed high-level direction is documented in [ADR 001: Initial architecture](docs/adr/001-initial-architecture.md), [ADR 002: CV object storage](docs/adr/002-cv-object-storage.md), and [ADR 003: Job Finder worker](docs/adr/003-job-finder-worker.md). The [server architecture](docs/architecture/server-architecture.md) and [data model](docs/architecture/data-model.md) describe the intended FastAPI internals. These documents are separate from the local prototypes below.
 
 ## Current state
 
