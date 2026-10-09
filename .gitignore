@@ -21,3 +21,4 @@ tmp/
 frontend/.impeccable/
 cli/*.egg-info/
 =
+.env

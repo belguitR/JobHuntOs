@@ -4,7 +4,21 @@ Job Hunt OS is a planned web app for managing a job search across countries. A u
 
 The agreed high-level direction is documented in [ADR 001: Initial architecture](docs/adr/001-initial-architecture.md), [ADR 002: CV object storage](docs/adr/002-cv-object-storage.md), and [ADR 003: Job Finder worker](docs/adr/003-job-finder-worker.md). The [server architecture](docs/architecture/server-architecture.md), [data model](docs/architecture/data-model.md), and [user stories](docs/product/user-stories-draft.md) describe the intended product. These documents are separate from the local prototypes below.
 
-## Current state
+## New API foundation
+
+The new product foundation lives in `apps/api/`. It is separate from the prototypes below and currently provides only PostgreSQL configuration, Alembic migrations, and system health endpoints. Keycloak and business contexts are intentionally not implemented yet.
+
+Run it with Docker:
+
+```powershell
+docker compose up --build
+```
+
+Check `http://localhost:8000/health` for API liveness and `http://localhost:8000/ready` for database readiness. Stop it with `docker compose down`; add `-v` only when you intentionally want to remove the local database volume.
+
+For a local Python environment, copy `apps/api/.env.example` to `apps/api/.env`, install with `pip install -e "./apps/api[dev]"`, then from `apps/api/` run `alembic upgrade head` and `uvicorn job_hunt_api.main:app --reload`.
+
+## Current prototypes
 
 This repository contains two working local prototypes that have **not yet been merged**:
 
