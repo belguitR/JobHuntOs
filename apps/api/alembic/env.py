@@ -10,7 +10,6 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Context-owned SQLAlchemy metadata will be registered here as contexts are implemented.
 target_metadata = None
 
 

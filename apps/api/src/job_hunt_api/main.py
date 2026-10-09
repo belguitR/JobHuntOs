@@ -18,13 +18,11 @@ app = FastAPI(
 
 @app.get("/health", tags=["system"])
 def health() -> dict[str, str]:
-    """Liveness probe: the API process is running."""
     return {"status": "ok"}
 
 
 @app.get("/ready", tags=["system"])
 def readiness(session: Session = Depends(get_db_session)) -> dict[str, str]:
-    """Readiness probe: the API can reach its source-of-truth database."""
     try:
         session.execute(text("SELECT 1"))
     except SQLAlchemyError as error:
