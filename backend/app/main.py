@@ -32,7 +32,6 @@ def create_app(database_path=None, upload_dir=None):
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-        allow_origin_regex=r"^(chrome-extension|extension)://[a-z]+$",
         allow_methods=["*"],
         allow_headers=["*"],
     )

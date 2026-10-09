@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src extension vite.config.js",
-    "format": "prettier --write src extension vite.config.js index.html"
+    "lint": "eslint src vite.config.js",
+    "format": "prettier --write src vite.config.js index.html"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
