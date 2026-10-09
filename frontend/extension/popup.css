@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  width: 360px;
+  margin: 0;
+  padding: 22px;
+  font:
+    13px 'Segoe UI',
+    sans-serif;
+  color: #332437;
+  background: #f6f3f6;
+}
+h1 {
+  font: 28px Georgia;
+  margin: 9px 0 18px;
+}
+label {
+  display: block;
+  font-size: 11px;
+  color: #755e72;
+  margin: 12px 0;
+}
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #d9cad4;
+  border-radius: 5px;
+  padding: 9px;
+  background: #fff;
+  color: #332437;
+  font:
+    13px 'Segoe UI',
+    sans-serif;
+}
+button {
+  border: 0;
+  border-radius: 5px;
+  background: linear-gradient(100deg, #66416e, #8b625f);
+  color: white;
+  padding: 11px;
+  width: 100%;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.6;
+}
+#message {
+  font-size: 12px;
+  line-height: 1.5;
+  background: #ece1ec;
+  padding: 10px;
+  border-radius: 5px;
+}
+footer {
+  margin-top: 20px;
+  border-top: 1px solid #deced8;
+  padding-top: 15px;
+}
+footer button {
+  background: #e6dae7;
+  color: #583d64;
+  font-size: 12px;
+}
+small {
+  display: block;
+  font-size: 11px;
+  color: #6d5b69;
+  line-height: 1.5;
+  margin: 12px 0;
+}
+a {
+  color: #66416e;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: 2px solid #9672a3;
+  outline-offset: 2px;
+}

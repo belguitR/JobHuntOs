@@ -1,0 +1,18 @@
+{
+  "name": "Rami Belguith",
+  "availability": "September 2027",
+  "target_roles": ["Software Engineer", "Backend Engineer", "Platform Engineer"],
+  "target_locations": ["Paris", "Grenoble", "Berlin", "Amsterdam", "Dublin", "London"],
+  "target_countries": ["France", "Germany", "Netherlands", "Ireland", "United Kingdom"],
+  "skills": ["Python", "Java", "Go", "FastAPI", "Docker", "Terraform", "PostgreSQL"],
+  "facts": [
+    "Worked on a distributed voice platform containing 8 microservices.",
+    "Worked with Python, Go, Java, gRPC, Protobuf, Azure Service Bus, Docker and Terraform.",
+    "Developed FastAPI APIs and integration tests for defined voice service scenarios.",
+    "Applied hexagonal architecture and modelled call lifecycle with a state machine."
+  ],
+  "minimum_salary_eur": 55000,
+  "maximum_experience_years": 3,
+  "preferred_languages": ["English", "French"],
+  "blocked_companies": []
+}
