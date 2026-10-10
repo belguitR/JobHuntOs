@@ -12,7 +12,7 @@ from job_hunt_api.identity_access.infrastructure.persistence.models import (
     AccountRecord,
     ExternalIdentityRecord,
 )
-from job_hunt_api.identity_access.router.auth import get_google_token_verifier
+from job_hunt_api.identity_access.router.auth.router import get_google_token_verifier
 from job_hunt_api.main import app
 
 

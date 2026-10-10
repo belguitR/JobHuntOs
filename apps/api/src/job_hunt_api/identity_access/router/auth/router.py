@@ -20,7 +20,10 @@ from job_hunt_api.identity_access.infrastructure.persistence.repository import (
     SqlAlchemyAccountRepository,
 )
 from job_hunt_api.identity_access.infrastructure.sessions import SessionTokenService
-from job_hunt_api.identity_access.schemas.auth import CurrentUserResponse, GoogleSignInRequest
+from job_hunt_api.identity_access.router.auth.schemas import (
+    CurrentUserResponse,
+    GoogleSignInRequest,
+)
 
 SESSION_COOKIE = "job_hunt_session"
 
