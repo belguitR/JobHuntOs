@@ -33,22 +33,20 @@ accounts
   updated_at
 ```
 
-### `external_connections`
+### `external_identities`
 
-Stores an account's connection to external providers such as Google. OAuth access and refresh tokens must be encrypted at rest.
+Maps an account to a verified external sign-in identity. The provider subject is the stable identity key; email is account contact data, not the external identifier.
 
 ```text
-external_connections
+external_identities
   id
   account_id            -> accounts.id
   provider              e.g. google
   provider_subject      provider user identifier
-  encrypted_tokens
-  scopes
-  expires_at
   created_at
-  updated_at
 ```
+
+Provider OAuth access and refresh tokens, when later needed for Gmail, belong to a separate encrypted connection record.
 
 ## `candidate`
 
