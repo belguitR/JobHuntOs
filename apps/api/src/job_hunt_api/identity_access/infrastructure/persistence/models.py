@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from job_hunt_api.database import Base
 
 
-class Account(Base):
+class AccountRecord(Base):
     __tablename__ = "accounts"
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -19,12 +19,12 @@ class Account(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()
     )
-    external_identities: Mapped[list["ExternalIdentity"]] = relationship(
+    external_identities: Mapped[list["ExternalIdentityRecord"]] = relationship(
         back_populates="account", cascade="all, delete-orphan"
     )
 
 
-class ExternalIdentity(Base):
+class ExternalIdentityRecord(Base):
     __tablename__ = "external_identities"
     __table_args__ = (UniqueConstraint("provider", "provider_subject"),)
 
@@ -35,4 +35,4 @@ class ExternalIdentity(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
-    account: Mapped[Account] = relationship(back_populates="external_identities")
+    account: Mapped[AccountRecord] = relationship(back_populates="external_identities")

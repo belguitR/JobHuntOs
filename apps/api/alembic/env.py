@@ -5,7 +5,7 @@ from sqlalchemy import engine_from_config, pool
 
 from job_hunt_api.config import get_settings
 from job_hunt_api.database import Base
-from job_hunt_api.identity_access import models
+from job_hunt_api.identity_access.infrastructure.persistence import models
 
 config = context.config
 

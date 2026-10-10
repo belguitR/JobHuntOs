@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from job_hunt_api.config import get_settings
 from job_hunt_api.database import get_db_session
-from job_hunt_api.identity_access.api import router as identity_access_router
+from job_hunt_api.identity_access.router.auth import router as identity_access_router
 
 settings = get_settings()
 

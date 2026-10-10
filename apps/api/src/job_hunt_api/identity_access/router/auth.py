@@ -1,31 +1,30 @@
 from functools import lru_cache
-from uuid import UUID
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from job_hunt_api.config import Settings, get_settings
 from job_hunt_api.database import get_db_session
-from job_hunt_api.identity_access.adapters.google import GoogleIdTokenVerifier
-from job_hunt_api.identity_access.models import Account
-from job_hunt_api.identity_access.ports import IdentityTokenVerifier
-from job_hunt_api.identity_access.repository import IdentityRepository
-from job_hunt_api.identity_access.security import SessionTokenService
+from job_hunt_api.identity_access.application.ports import IdentityTokenVerifier
+from job_hunt_api.identity_access.application.use_cases.get_current_account import GetCurrentAccount
+from job_hunt_api.identity_access.application.use_cases.sign_in_with_google import (
+    AccountEmailConflictError,
+    InvalidGoogleIdentityError,
+    SignInWithGoogle,
+)
+from job_hunt_api.identity_access.domain.models import Account
+from job_hunt_api.identity_access.infrastructure.identity_providers.google import (
+    GoogleIdTokenVerifier,
+)
+from job_hunt_api.identity_access.infrastructure.persistence.repository import (
+    SqlAlchemyAccountRepository,
+)
+from job_hunt_api.identity_access.infrastructure.sessions import SessionTokenService
+from job_hunt_api.identity_access.schemas.auth import CurrentUserResponse, GoogleSignInRequest
 
 SESSION_COOKIE = "job_hunt_session"
 
 router = APIRouter(prefix="/auth", tags=["identity-access"])
-
-
-class GoogleSignInRequest(BaseModel):
-    id_token: str
-
-
-class CurrentUserResponse(BaseModel):
-    id: UUID
-    email: str
-    is_email_verified: bool
 
 
 @lru_cache
@@ -37,16 +36,17 @@ def get_session_token_service(settings: Settings = Depends(get_settings)) -> Ses
     return SessionTokenService(settings)
 
 
+def get_account_repository(session: Session = Depends(get_db_session)) -> SqlAlchemyAccountRepository:
+    return SqlAlchemyAccountRepository(session)
+
+
 def get_current_account(
-    session: Session = Depends(get_db_session),
+    accounts: SqlAlchemyAccountRepository = Depends(get_account_repository),
     session_token: str | None = Cookie(default=None, alias=SESSION_COOKIE),
     token_service: SessionTokenService = Depends(get_session_token_service),
 ) -> Account:
-    if session_token is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated.")
-
-    account_id = token_service.read_account_id(session_token)
-    account = IdentityRepository(session).find_account(account_id) if account_id else None
+    account_id = token_service.read_account_id(session_token) if session_token else None
+    account = GetCurrentAccount(accounts).execute(account_id) if account_id else None
     if account is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated.")
     return account
@@ -56,25 +56,18 @@ def get_current_account(
 def sign_in_with_google(
     payload: GoogleSignInRequest,
     response: Response,
-    session: Session = Depends(get_db_session),
+    accounts: SqlAlchemyAccountRepository = Depends(get_account_repository),
     verifier: IdentityTokenVerifier = Depends(get_google_token_verifier),
     token_service: SessionTokenService = Depends(get_session_token_service),
     settings: Settings = Depends(get_settings),
 ) -> Account:
     try:
-        identity = verifier.verify(payload.id_token)
-    except ValueError as error:
+        account = SignInWithGoogle(verifier, accounts).execute(payload.id_token)
+    except InvalidGoogleIdentityError as error:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Google ID token is invalid."
         ) from error
-    if not identity.email_verified:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Google ID token is invalid."
-        )
-
-    try:
-        account = IdentityRepository(session).find_or_create_account(identity)
-    except ValueError as error:
+    except AccountEmailConflictError as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="An account already uses this email address."
         ) from error
