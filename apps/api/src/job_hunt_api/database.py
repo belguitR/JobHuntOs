@@ -3,9 +3,13 @@ from functools import lru_cache
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from job_hunt_api.config import get_settings
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 def create_database_engine() -> Engine:

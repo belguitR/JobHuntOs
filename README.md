@@ -14,7 +14,7 @@ docker compose up --build
 
 It exposes `/health` and `/ready` on `http://localhost:8000`.
 
-For local API work: copy `apps/api/.env.example` to `apps/api/.env`, then run `uv sync`, `uv run alembic upgrade head`, and `uv run uvicorn job_hunt_api.main:app --reload` from `apps/api/`.
+For local API work: copy `apps/api/.env.example` to `apps/api/.env`, configure Google OAuth and a 32+ character session-signing key, then run `uv sync`, `uv run alembic upgrade head`, and `uv run uvicorn job_hunt_api.main:app --reload` from `apps/api/`. The API exchanges a verified Google ID token at `POST /auth/google`, stores its session in an HTTP-only cookie, and returns the signed-in account from `GET /auth/me`. Set `JOB_HUNT_SESSION_COOKIE_SECURE=true` outside local HTTP development.
 
 ## Current prototypes
 
